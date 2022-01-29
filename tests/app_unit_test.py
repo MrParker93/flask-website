@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from project.app import app
 
 def test_index_page_gives_200_response():
@@ -6,3 +8,6 @@ def test_index_page_gives_200_response():
 
     assert response.status_code == 200
     assert response.data == b"Hello, World!"
+
+def test_database_exists():
+    assert Path('flaskr.db').is_file()
