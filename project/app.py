@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, g
+from flask import Flask, g, render_template
 
 # Create database path
 DATABASE = 'flaskr.db'
@@ -12,6 +12,7 @@ app.config.from_object(__name__)
 
 # Connect to database
 def connect_db():
+    """Database connected."""
     db_connection = sqlite3.connect(app.config['DATABASE'])
     db_connection.row_factory = sqlite3.Row
     return db_connection
@@ -37,8 +38,11 @@ def close_db(error):
         g.sqlite_db.close()
         
 @app.route('/')
-def hello():
-    return "Hello, World!"
+def index():
+    db = get_db()
+    db_cursor = db.execute('SELECT * FROM entries ORDER BY id DESC')
+    db_entries = db_cursor.fetchall()
+    return render_template('index.html', db_entries=db_entries)
 
 
 if __name__ == "__main__":

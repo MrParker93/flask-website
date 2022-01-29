@@ -10,20 +10,20 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
        self.browser.quit()
 
-    def test_home_page_includes_hello_world_in_html_body(self):
+    def test_can_see_blog_posts_from_current_account_holders_and_create_an_account(self):
+        # User has stumbled upon this great online blogging app
+        # They go checkout its homepage
         self.browser.get('http://localhost:5000/')
-        body_text = self.browser.find_element(By.TAG_NAME, 'body')
 
-        self.assertIn('Hello, World!', body_text.text)
+        # They realise the title and header mention Blog
+        self.assertIn('Blog', self.browser.title)
+        header_text = self.browser.find_element(By.TAG_NAME, 'h1')
+        self.assertIn('Blog Post', header_text.text)
 
-    # User has stumbled upon this great online blogging app
-    # They go checkout its homepage
 
-    # They realise the title and header mention blogging app
+        # They also realise the posts of members with accounts on the left half 
+        # of the page
 
-    # They also realise the posts of members with accounts on the left half 
-    # of the page
-
-    # They are prompted to login if they have an account or create a new account
+        # They are prompted to login if they have an account or create a new account
 
 
