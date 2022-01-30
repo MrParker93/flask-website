@@ -25,5 +25,6 @@ def test_database_exists(set_up_test_client):
     assert Path('test.db').is_file()
 
 def test_database_is_empty_when_page_is_first_loaded(set_up_test_client):
-    db_table = set_up_test_client.get('/')
-    assert b'No entries yet. Add some!' in db_table.data
+    test_db = set_up_test_client.get_db()
+    is_empty = test_db.execute('SELECT * FROM entries').fetchall()
+    assert len(is_empty) == 0
