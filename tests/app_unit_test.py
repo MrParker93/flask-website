@@ -1,4 +1,3 @@
-import os
 import pytest
 from pathlib import Path
 
@@ -25,6 +24,9 @@ def test_database_exists(set_up_test_client):
     assert Path('test.db').is_file()
 
 def test_database_is_empty_when_page_is_first_loaded(set_up_test_client):
-    test_db = set_up_test_client.get_db()
-    is_empty = test_db.execute('SELECT * FROM entries').fetchall()
-    assert len(is_empty) == 0
+    db_table = set_up_test_client.get('/')
+    assert b'No entries yet. Add some!' in db_table.data
+
+def test_index_page_can_save_a_POST_request(set_up_test_client):
+    response = set_up_test_client.post('/add', data={'blog title': 'blog post'})
+    assert b'blog post' in response.get_data()

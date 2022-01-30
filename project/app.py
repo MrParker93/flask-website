@@ -44,6 +44,10 @@ def index():
     db_entries = db_cursor.fetchall()
     return render_template('index.html', db_entries=db_entries)
 
+@app.route('/add', methods=['POST'])
+def add_entry():
+    return 'blog post'
+
 
 if __name__ == "__main__":
     app.run()

@@ -26,4 +26,15 @@ class NewVisitorTest(unittest.TestCase):
 
         # They are prompted to login if they have an account or create a new account
 
+        # The user is invited to enter a title and post for their blog post
+        input_box = self.browser.find_element(By.ID, 'title-input')
+        self.assertEqual(
+            input_box.get_attribute('placeholder'),
+            'Enter a blog title'
+        )
 
+        input_box = self.browser.find_element(By.ID, 'post-input')
+        self.assertEqual(
+            input_box.get_attribute('placeholder'),
+            'Write a post'
+        )
