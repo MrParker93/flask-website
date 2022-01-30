@@ -61,6 +61,13 @@ def login():
             flash('Successfully logged in!')
             return redirect(url_for('index'))
     return render_template('login.html', error=error)
+
+@app.route('/logout')
+def logout():
+    """User logout/authentication/session management"""
+    session.pop('logged_in', None)
+    flash('Successfully logged out!')
+    return redirect(url_for('index'))
     
 @app.route('/add', methods=['POST'])
 def add_entry():
