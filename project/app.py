@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, g, render_template, flash, redirect, url_for, request, session
+from flask import Flask, g, render_template, flash, redirect, url_for, request, session, abort
 
 # App configuration
 DATABASE = 'flaskr.db'
@@ -68,19 +68,20 @@ def logout():
     session.pop('logged_in', None)
     flash('Successfully logged out!')
     return redirect(url_for('index'))
-    
+
 @app.route('/add', methods=['POST'])
 def add_entry():
     """Add new post to the database"""
-    if request.method == 'POST':
-        db = get_db()
-        db.execute(
-            'INSERT INTO entries (title, text) VALUES (?, ?)',
-            [request.form['title'], request.form['text']]
-        )
-        db.commit()
-        flash('New entry was successfully posted')
-        return redirect(url_for('index'))
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    db.execute(
+        'INSERT INTO entries (title, text) VALUES (?, ?)',
+        [request.form['title'], request.form['text']]
+    )
+    db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run()
