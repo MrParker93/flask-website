@@ -1,8 +1,11 @@
 import sqlite3
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, flash, redirect, url_for, request, session
 
-# Create database path
+# App configuration
 DATABASE = 'flaskr.db'
+USERNAME = 'admin'
+PASSWORD = 'admin'
+SECRET_KEY = 'change'
 
 # Create and initialize a new Flask app
 app = Flask(__name__)
@@ -44,10 +47,33 @@ def index():
     db_entries = db_cursor.fetchall()
     return render_template('index.html', db_entries=db_entries)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """User login/authentication/sessions management"""
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('Successfully logged in!')
+            return redirect(url_for('index'))
+    return render_template('login.html', error=error)
+    
 @app.route('/add', methods=['POST'])
 def add_entry():
-    return 'blog post'
-
+    """Add new post to the database"""
+    if request.method == 'POST':
+        db = get_db()
+        db.execute(
+            'INSERT INTO entries (title, text) VALUES (?, ?)',
+            [request.form['title'], request.form['text']]
+        )
+        db.commit()
+        flash('New entry was successfully posted')
+        return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run()
