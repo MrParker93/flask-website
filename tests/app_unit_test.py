@@ -64,4 +64,21 @@ def test_index_page_can_save_a_POST_request(set_up_test_client):
 def test_can_delete_post_from_database(set_up_test_client):
     response = set_up_test_client.get('/delete/1')
     data = json.loads(response.data)
+    assert data['status'] == 0
+    login_helper(set_up_test_client, app.config['USERNAME'], app.config['PASSWORD'])
+    response = set_up_test_client.get('/delete/1')
+    data = json.loads(response.data)
     assert data['status'] == 1
+    
+
+def test_can_search_for_existing_posts(set_up_test_client):
+    login_helper(set_up_test_client, app.config['USERNAME'], app.config['PASSWORD'])
+    res = set_up_test_client.post(
+        '/add',
+        data=dict(title='book', text='post'),
+        follow_redirects=True,
+    )
+    response = set_up_test_client.get('/search/?query=book')
+    assert b'book' in response.data
+    response = set_up_test_client.get('/search/?query=post')
+    assert b'post' in response.data
