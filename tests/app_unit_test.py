@@ -47,6 +47,13 @@ def test_user_can_login_and_logout(set_up_test_client):
     log_status = login_helper(set_up_test_client, app.config['USERNAME'], app.config['PASSWORD'] + 'x')
     assert b'Invalid password' in log_status.data
 
-# def test_index_page_can_save_a_POST_request(set_up_test_client):
-#     response = set_up_test_client.post('/add', data=dict())
-#     assert 'blog post'
+def test_index_page_can_save_a_POST_request(set_up_test_client):
+    login_helper(set_up_test_client, app.config['USERNAME'], app.config['PASSWORD'])
+    response = set_up_test_client.post(
+        '/add',
+        data=dict(title='<Hello>', text='<strong>HTML</strong> allowed here'),
+        follow_redirects=True,
+    )
+    assert b'No entries yet. Add some!' not in response.data
+    assert b'&lt;Hello&gt;' in response.data
+    assert b'<strong>HTML</strong> allowed here' in response.data

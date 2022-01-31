@@ -32,6 +32,10 @@ class NewVisitorTest(unittest.TestCase):
         page_text = self.browser.find_element(By.TAG_NAME, 'body')
         self.assertIn('Log in', page_text.text)
 
+    def test_can_log_in_successfully(self):
+
+        self.browser.get('http://localhost:5000/login')
+        
         # They create an account and land on a page prompting them to create a blog post
         input_box = self.browser.find_element(By.ID, 'login-username')
         input_box.send_keys(app.config['USERNAME'])
