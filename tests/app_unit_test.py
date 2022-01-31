@@ -1,3 +1,4 @@
+import json
 import pytest
 from pathlib import Path
 
@@ -57,3 +58,9 @@ def test_index_page_can_save_a_POST_request(set_up_test_client):
     assert b'No entries yet. Add some!' not in response.data
     assert b'&lt;Hello&gt;' in response.data
     assert b'<strong>HTML</strong> allowed here' in response.data
+
+
+def test_can_delete_post_from_database(set_up_test_client):
+    response = set_up_test_client.get('/delete/1')
+    data = json.loads(response.data)
+    assert data['status'] == 1
