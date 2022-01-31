@@ -2,7 +2,7 @@ import json
 import pytest
 from pathlib import Path
 
-from project.app import app, init_db
+from project.app import app, db
 
 TEST_DB = 'test.db'
 
@@ -12,10 +12,11 @@ def set_up_test_client():
     BASE_DIR = Path(__file__).resolve().parent.parent
     app.config['TESTING'] = True
     app.config['DATABASE'] = BASE_DIR.joinpath(TEST_DB)
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{BASE_DIR.joinpath(TEST_DB)}'
 
-    init_db()  # setUp 
+    db.create_all()
     yield app.test_client()
-    init_db()  # tearDown
+    db.drop_all()
 
 def login_helper(set_up_test_client, username, password):
     return set_up_test_client.post(
