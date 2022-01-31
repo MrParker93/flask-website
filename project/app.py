@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from pathlib import Path
 from functools import wraps
@@ -12,7 +13,10 @@ DATABASE = 'flaskr.db'
 USERNAME = 'admin'
 PASSWORD = 'admin'
 SECRET_KEY = 'change'
-SQLALCHEMY_DATABASE_URI = f'sqlite:///{Path(basedir).joinpath(DATABASE)}'
+SQLALCHEMY_DATABASE_URI = os.getenv(
+    'DATABASE_URL',
+    f'sqlite:///{Path(basedir).joinpath(DATABASE)}'
+)
 SQALCHEMY_TRACK_MODIFICATIONS = False
 
 # Create and initialize a new Flask app
