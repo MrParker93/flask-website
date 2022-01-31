@@ -5,10 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Login</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+    <link 
+    rel="stylesheet"
+    type="text/css"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" 
+    crossorigin="anonymous"
+    />
 </head>
     <body>
-        <div class="page">
+        <div class="container">
             <h1>Login</h1>
 
             <div class="metanav">
@@ -20,22 +26,27 @@
             </div>
 
             {% for message in get_flashed_messages() %}
-            <div class="flash">{{ message }}</div>
+            <div  class="flash alert alert-success col-sm-4" role="success">
+                {{ message }}
+            </div>
             {% endfor %} {% block body %}{% endblock %}
 
             <h2>Login</h2>
 
             {% if error %}
-            <p class="error"><strong>Error:</strong>{{ error }}</p>
+            <p class="alert alert-danger col-sm-4" role="danger">
+                <strong>Error:</strong>
+                {{ error }}
+            </p>
             {% endif %}
 
-            <form action="{{ url_for('login') }}" method="post">
+            <form action="{{ url_for('login') }}" method="post" class="form-group">
                 <dl>
                     <dt>Username:</dt>
-                    <dd><input type="text" name="username" id="login-username"/></dd>
+                    <dd><input type="text" name="username" id="login-username" class="form-control ocl-sm-4"/></dd>
                     <dt>Password:</dt>
-                    <dd><input type="password" name="password" id="login-password"/></dd>
-                    <dd><input type="submit" value="Login" id="login-btn"/></dd>
+                    <dd><input type="password" name="password" id="login-password" class="form-control col-sm-4"/></dd>
+                    <dd><input type="submit" value="Login" id="login-btn" class="btn btn-primary"/></dd>
                 </dl>
             </form>
         </div>
