@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+    <body>
+        <div class="page">
+            <h1>Blog Post</h1>
+            <div class="metanav">
+                {% if not session.logged_in %}
+                <a href="{{ url_for('login') }}" id="login">Log in</a>
+                {% else %}
+                <a href="{{ url_for('logout') }}" id="logout">Log out</a>
+                {% endif %}
+            </div>
+
+            {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+            {% endfor %} {% block body %}{% endblock %}
+
+            {% if session.logged_in %}
+                <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+                    <dl>
+                        <dt>Title:</dt>
+                        <dd><input type="text" size="30" name="title" id="title-input" placeholder="Enter a blog title"/></dd>
+                        <dt>Text:</dt>
+                        <dd><textarea name="text" rows="5" cols="40" id="post-input" placeholder="Write a post"></textarea></dd>
+                        <dd><input type="submit" value="Post" id="post-btn"/></dd>
+                    </dl>
+                </form>
+            {% endif %}
+            <ul class="entries">
+                {% for entry in db_entries %}
+                <li class="entry">
+                    <h2 id="{{ entry.id }}">{{ entry.title }}</h2>
+                    {{ entry.text|safe }}
+                  </li>
+                {% else %}
+                <li><em>No entries yet. Add some!</em></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+    </body>
+</html>
