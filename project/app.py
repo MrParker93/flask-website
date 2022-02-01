@@ -241,7 +241,7 @@ def not_found(exc):
     return Response('<h3>Not found</h3>'), 404
 
 def main():
-    database.create_tables([Entry, FTSEntry])
+    database.create_tables([Entry, FTSEntry], safe=True)
     app.run(debug=True)
 
 

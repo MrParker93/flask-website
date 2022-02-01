@@ -32,8 +32,9 @@
                         <li><a href="{{ url_for('drafts') }}">Drafts</a></li>
                         <li><a href="{{ url_for('create') }}">Create Post</a></li>
                         <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                    {% else %}    
+                        {% block extra_header %}{% endblock %}
                     {% endif %}
-                    {% block extra_header %}{% endblock %}
                     </ul>
                     {% block search_bar %}
                     <form action="{{ url_for('index') }}" class="navbar-form navbar-right" id="search-form" method="get" role="search">
