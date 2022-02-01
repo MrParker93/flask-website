@@ -45,18 +45,6 @@ def index():
     db_entries = db.session.query(models.Post)
     return render_template('index.html', db_entries=db_entries)
 
-@app.route('/projects')
-def projects():
-    return render_template('projects.html')
-
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
-
-@app.route('/blog')
-def blog():
-    return render_template('blog.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """User login/authentication/sessions management"""
