@@ -1,17 +1,18 @@
 import yaml
-from peewee import *
+import sqlite3
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 # Initialise Flask app
 app = Flask(__name__)
 
 # Load configurations
-app.config.from_file('../config.yaml', load=yaml.safe_load)
+app.config.from_file('..config/dev.yaml', load=yaml.safe_load)
+
+# Initialize the database
+db = SQLAlchemy(app=app)
 
 # Read configurations to use
-with open('config.yaml', 'r') as f:
+with open('config/dev.yaml', 'r') as f:
     app_config = yaml.safe_load(f)
-
-    # Initialise database
-    db = MySQLDatabase(app_config['DATABASE']['DB'], autoconnect=True)
 

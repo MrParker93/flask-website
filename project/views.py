@@ -2,9 +2,6 @@ from models import Entry
 from helpers import login_required
 from app import app, db, app_config
 
-from peewee import IntegrityError
-from playhouse.flask_utils import get_object_or_404, object_list
-
 from flask import flash, session, request, redirect, render_template, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 

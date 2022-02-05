@@ -10,29 +10,20 @@ from markdown import markdown
 from markdown.extensions.extra import ExtraExtension
 from markdown.extensions.codehilite import  CodeHiliteExtension
 
-from peewee import *
-from playhouse.sqlite_ext import *
-
 # Enables embedding of supported providers such as: YouTube, Vimeo etc
 oembed_providers = bootstrap_basic(OEmbedCache())
 
 
-# Base class
-class BaseModel(Model):
-    class Meta:
-        database = db
-
-
 # Handles users
-class User(BaseModel):
-    _id = IdentityField(primary_key=True)
+class User(db.Model):
+    id = db.Column(db.Integer)
     _username = CharField(unique=True, index=True)
     _password = CharField()
     _join_date = DateField(default=datetime.datetime.now)
 
 
 # Handles blog entries 
-class Entry(BaseModel):
+class Entry(db.Model):
     _username = ForeignKeyField(User, backref='post')
     _title = CharField()
     _slug = CharField(unique=True)  # URL safe version of blog title
@@ -113,7 +104,7 @@ class Entry(BaseModel):
 
 
 # Handles search database
-class FTSEntry(FTSModel, BaseModel):
+class FTSEntry(FTSModel, db.Model):
     content = TextField()
 
 
