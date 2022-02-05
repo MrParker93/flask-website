@@ -1,0 +1,12 @@
+APP:
+  ENVIRONMENT : development
+  USERNAME: admin
+  PASSWORD: admin
+  TESTING: False
+  DEBUG: True
+  SECRET_KEY: dev
+  SIDE_WIDTH: 800
+
+DATABASE:
+  DB: blog.db
+

@@ -3,7 +3,10 @@
 {% block title %}Blog posts{% endblock %}
 
 {% if not session.logged_in %}
-{% block extra_header %}<li><a href="{{ url_for('login') }}">Log in</a></li>{% endblock %}
+{% block extra_header %}
+<li><a href="{{ url_for('login') }}">Log in</a></li>
+<!-- <li><a href="{{ url_for('create_account') }}">Log in</a></li> -->
+{% endblock %}
 {% endif %}
 
 {% block content_title %}
